@@ -2076,6 +2076,8 @@ class APISite(BaseSite):
         # or check user identity when OAuth enabled
         self._loginstatus = LoginStatus.IN_PROGRESS
         try:
+            if self.family.name == 'hive':
+                raise api.APIError('readapidenied', 'Hive needs login')
             self.getuserinfo(force=True)
             if self.userinfo['name'] == self._username[sysop] and \
                self.logged_in(sysop):
@@ -2758,6 +2760,9 @@ class APISite(BaseSite):
         L{pywikibot.site.mw_version} to compare MediaWiki versions.
         """
         version = self.force_version()
+        if not version:
+            if self.family.name == 'hive':
+                version = self.family.version(self.code)
         if not version:
             try:
                 version = self.siteinfo.get('generator',
