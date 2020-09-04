@@ -290,8 +290,9 @@ class LoginManager(object):
                 'be shown):' % {'name': self.login_name, 'site': self.site},
                 password=True)
 
-        pywikibot.output('Logging in to %(site)s as %(name)s'
-                         % {'name': self.login_name, 'site': self.site})
+        if self.site.family.name != 'hive':
+            pywikibot.output('Logging in to %(site)s as %(name)s'
+                             % {'name': self.login_name, 'site': self.site})
         try:
             cookiedata = self.getCookie()
         except pywikibot.data.api.APIError as e:
