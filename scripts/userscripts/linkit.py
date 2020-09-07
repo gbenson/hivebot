@@ -25,6 +25,7 @@ class Robot(MultipleSitesBot, ExistingPageBot, NoRedirectPageBot):
         if generator is None:
             gen_factory = pagegenerators.GeneratorFactory()
             gen_factory.handleArg("-search:" + self._search_for)
+            gen_factory.handleArg("-ns:0")
             generator = gen_factory.getCombinedGenerator(preload=True)
         super(Robot, self).__init__(generator=generator, **kwargs)
 
