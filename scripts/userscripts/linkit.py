@@ -29,19 +29,20 @@ class Robot(MultipleSitesBot, ExistingPageBot, NoRedirectPageBot):
             generator = gen_factory.getCombinedGenerator(preload=True)
         super(Robot, self).__init__(generator=generator, **kwargs)
 
-    @property
-    def current_page_is_linked(self):
-        page = self.current_page
+    def _page_is_linked(self, page):
         assert page.content_model == "wikitext"
         code = mwparserfromhell.parse(page.text)
         return not(not code.filter_wikilinks(
             matches=lambda n: n.title.strip().lower() == self._search_for))
 
+    def skip_page(self, page):
+        if page.title().lower() == self._search_for:
+            return True
+        if self._page_is_linked(page):
+            return True
+        return super(Robot, self).skip_page(page)
+
     def treat_page(self):
-        if self.current_page.title().lower() == self._search_for:
-            return
-        if self.current_page_is_linked:
-            return
         self.put_current(re.sub("(%s)" % self._search_for,
                                 r"[[\1]]",
                                 self.current_page.text,
