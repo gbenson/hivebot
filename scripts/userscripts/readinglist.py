@@ -14,7 +14,6 @@ import email.policy
 import imaplib
 import pywikibot
 import re
-import sys
 import urllib
 
 from pywikibot.bot import CurrentPageBot, SingleSiteBot
@@ -123,7 +122,7 @@ def main(*args):
     assert not args
     bot = Robot()
     bot.site.login()
-    if sys.stdin.isatty():
+    if False:  # XXX sys.stdin.isatty()
         bot.run()
     else:
         bot.options["always"] = True
