@@ -107,9 +107,9 @@ class Robot(SingleSiteBot, CurrentPageBot):
             entry = re.sub(pattern, repl, entry, 1, re.I)
         if entry.startswith("wikipedia:"):
             entry = urllib.parse.unquote(entry).replace("_", " ")
-            if subject:
-                entry = "%s|%s" % (entry, subject)
             entry = "[[%s]]" % entry
+            if subject:
+                entry = "%s ''<q>%s</q>''" % (entry, subject)
         elif subject:
             entry = "[%s %s]" % (entry, subject)
         date = msg["date"]
