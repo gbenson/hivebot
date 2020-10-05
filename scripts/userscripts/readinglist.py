@@ -30,7 +30,7 @@ class IMAP4JobQueue(imaplib.IMAP4_SSL):
     def _chk(self, typ_dat):
         typ, dat = typ_dat
         if typ != "OK":
-            raise self.error(dat[-1])
+            raise self.error(dat[-1].decode(errors="ignore"))
         return dat
 
     @property
@@ -80,7 +80,11 @@ class Robot(SingleSiteBot, CurrentPageBot):
         bits.extend(self.entries)
         self.put_current("\n* ".join(bits) + "\n",
                          show_diff=(not self.getOption("always")))
-        self.mbox._chk(self.mbox.expunge())
+        try:
+            self.mbox._chk(self.mbox.expunge())
+        except self.error as e:
+            if not e.args or e.args[0].lower.find("deleted under") < 0:
+                raise
 
     REWRITES = (
         (r"^https?://en\.(m\.)?wikipedia\.org/wiki/", "wikipedia:"),
