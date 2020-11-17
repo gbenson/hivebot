@@ -82,8 +82,8 @@ class Robot(SingleSiteBot, CurrentPageBot):
                          show_diff=(not self.getOption("always")))
         try:
             self.mbox._chk(self.mbox.expunge())
-        except self.error as e:
-            if not e.args or e.args[0].lower.find("deleted under") < 0:
+        except self.mbox.error as e:
+            if not e.args or e.args[0].lower().find("deleted under") < 0:
                 raise
 
     REWRITES = (
