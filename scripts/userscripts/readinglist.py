@@ -80,11 +80,7 @@ class Robot(SingleSiteBot, CurrentPageBot):
         bits.extend(self.entries)
         self.put_current("\n* ".join(bits) + "\n",
                          show_diff=(not self.getOption("always")))
-        try:
-            self.mbox._chk(self.mbox.expunge())
-        except self.mbox.error as e:
-            if not e.args or e.args[0].lower().find("deleted under") < 0:
-                raise
+        self.mbox._chk(self.mbox.expunge())
 
     REWRITES = (
         (r"^https?://en\.(m\.)?wikipedia\.org/wiki/", "wikipedia:"),
@@ -124,15 +120,26 @@ class Robot(SingleSiteBot, CurrentPageBot):
 def main(*args):
     args = pywikibot.handle_args(args)
     assert not args
-    bot = Robot()
-    bot.site.login()
-    if False:  # XXX sys.stdin.isatty()
-        bot.run()
-    else:
-        bot.options["always"] = True
-        for page in bot.generator:
-            bot._current_page = page
-            bot.treat(page)
+    try:
+        bot = Robot()
+        bot.site.login()
+        if False:  # XXX sys.stdin.isatty()
+            bot.run()
+        else:
+            bot.options["always"] = True
+            for page in bot.generator:
+                bot._current_page = page
+                bot.treat(page)
+    except self.mbox.error as e:
+        if not e.args:
+            raise
+        msg = e.args[0].lower()
+        for needle in ("deleted under",
+                       "please relogin"):
+            if msg.find(needle) >= 0:
+                break
+        else:
+            raise
 
 if __name__ == "__main__":
     if "sys" not in locals():
