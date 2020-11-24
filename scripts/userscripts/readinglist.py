@@ -130,7 +130,7 @@ def main(*args):
             for page in bot.generator:
                 bot._current_page = page
                 bot.treat(page)
-    except self.mbox.error as e:
+    except IMAP4JobQueue.error as e:
         if not e.args:
             raise
         msg = e.args[0].lower()
