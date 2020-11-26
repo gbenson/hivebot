@@ -76,9 +76,23 @@ class Robot(SingleSiteBot, CurrentPageBot):
             yield pywikibot.Page(self.site, "Reading list")
 
     def treat_page(self):
+        # Add the new entries.
         bits = [self.current_page.text.rstrip()]
         bits.extend(self.entries)
-        self.put_current("\n* ".join(bits) + "\n",
+        text = "\n* ".join(bits) + "\n"
+        # Strip duplicate entries.
+        lines, seen = [], {}
+        for line in text.rstrip().split("\n"):
+            m = re.match(r"\*\s*(\{\{at\|.*?\}\}\s*)?", line)
+            if m is not None:
+                entry = line[len(m.group(0)):]
+                if entry in seen:
+                    continue
+                seen[entry] = True
+                line
+            lines.append(line)
+        # Store the updated wikitext.
+        self.put_current("\n".join(lines) + "\n",
                          show_diff=(not self.getOption("always")))
         self.mbox._chk(self.mbox.expunge())
 
