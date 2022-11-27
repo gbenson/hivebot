@@ -9,6 +9,7 @@ if False:
     import logging
     logging.basicConfig(level=1)
 
+import base64
 import email
 import email.policy
 import imaplib
@@ -60,6 +61,8 @@ class IMAP4JobQueue(imaplib.IMAP4_SSL):
             assert header[-2] == b"RFC822"
             assert header[-1] == b"{%d}" % len(data)
             logger.debug(f"handling UID {header[2]}")
+            print(base64.a85encode(data, wrapcol=72).decode("utf-8"))
+            print()
             msg = email.message_from_bytes(
                 data, policy=email.policy.default)
             assert not hasattr(msg, "uid")
