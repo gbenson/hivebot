@@ -69,7 +69,14 @@ class IMAP4JobQueue(imaplib.IMAP4_SSL):
 class Robot(SingleSiteBot, CurrentPageBot):
     def __init__(self, **kwargs):
         super(Robot, self).__init__(site=True, **kwargs)
-        self.mbox = IMAP4JobQueue(**self.site.family.readinglist.mailbox)
+        self._mbox_args = self.site.family.readinglist.mailbox
+        self._mbox = None
+
+    @property
+    def mbox(self):
+        if self._mbox is None:
+            self._mbox = IMAP4JobQueue(**self._mbox_args)
+        return self._mbox
 
     @property
     def generator(self):
