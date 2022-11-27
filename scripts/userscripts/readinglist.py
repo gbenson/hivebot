@@ -12,20 +12,26 @@ if False:
 import email
 import email.policy
 import imaplib
+import logging
 import pywikibot
 import re
 import urllib
 
 from pywikibot.bot import CurrentPageBot, SingleSiteBot
 
+logger = logging.getLogger(__name__)
+
 class IMAP4JobQueue(imaplib.IMAP4_SSL):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user", None)
         password = kwargs.pop("password", "")
         self.mailbox = kwargs.pop("mailbox", "INBOX")
+        logger.debug("connecting to IMAP server")
         super().__init__(*args, **kwargs)
         if user is not None:
+            logger.debug("authenticating")
             self._chk(self.login(user, password))
+        logger.info(f"connected to {self.host}")
 
     def _chk(self, typ_dat):
         typ, dat = typ_dat
@@ -35,9 +41,11 @@ class IMAP4JobQueue(imaplib.IMAP4_SSL):
 
     @property
     def messages(self):
+        logger.debug(f"selecting {self.mailbox}")
         data = self._chk(self.select(self.mailbox))
         if data and data[0] == b"0":
             return
+        logger.debug("fetching messages")
         for data in self._chk(self.fetch("1:*", "(UID RFC822)")):
             # Each data is either a string, or a tuple.
             if not isinstance(data, tuple):
@@ -51,6 +59,7 @@ class IMAP4JobQueue(imaplib.IMAP4_SSL):
             assert header[1] == b"(UID"
             assert header[-2] == b"RFC822"
             assert header[-1] == b"{%d}" % len(data)
+            logger.debug(f"handling UID {header[2]}")
             msg = email.message_from_bytes(
                 data, policy=email.policy.default)
             assert not hasattr(msg, "uid")
