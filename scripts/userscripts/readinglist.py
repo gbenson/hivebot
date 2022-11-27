@@ -63,11 +63,14 @@ class IMAP4JobQueue(imaplib.IMAP4_SSL):
             logger.debug(f"handling UID {header[2]}")
             print(base64.a85encode(data, wrapcol=72).decode("utf-8"))
             print()
-            msg = email.message_from_bytes(
-                data, policy=email.policy.default)
+            msg = email_from_bytes(data)
             assert not hasattr(msg, "uid")
             msg.uid = header[2]
             yield msg
+
+def email_from_bytes(data):
+    return email.message_from_bytes(
+        data, policy=email.policy.default)
 
 class Robot(SingleSiteBot, CurrentPageBot):
     def __init__(self, **kwargs):
