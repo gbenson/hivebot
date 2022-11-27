@@ -120,7 +120,8 @@ class Robot(SingleSiteBot, CurrentPageBot):
         (r"^https?://youtu\.be/", "https://www.youtube.com/watch?v="),
     )
 
-    def entry_for(self, msg):
+    @classmethod
+    def entry_for(cls, msg):
         for header in ("to", "cc", "bcc"):
             if msg[header]:
                 return
@@ -136,7 +137,7 @@ class Robot(SingleSiteBot, CurrentPageBot):
         if subject:
             if entry.split(":", 1)[0].lower() not in ("http", "https"):
                 return
-        for pattern, repl in self.REWRITES:
+        for pattern, repl in cls.REWRITES:
             entry = re.sub(pattern, repl, entry, 1, re.I)
         if entry.startswith("wikipedia:"):
             entry = urllib.parse.unquote(entry).replace("_", " ")
