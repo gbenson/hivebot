@@ -31,3 +31,4 @@ mock ; python_version < '3'
 # are not useful on the Appveyor Win32 builds since the relevant UI tests
 # also require accessing the menu of the console window, which doesn't exist
 # in the Appveyor environment.
+parameterized==0.8.1
