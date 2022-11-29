@@ -20,6 +20,7 @@ from pywikibot.bot import (ExistingPageBot,
 
 class Robot(MultipleSitesBot, ExistingPageBot, NoRedirectPageBot):
     def __init__(self, searchfor=None, **kwargs):
+        self._summary = f"link [[{searchfor}]]"
         self._search_for = searchfor.lower()
         generator = kwargs.pop("generator", None)
         if generator is None:
@@ -48,7 +49,7 @@ class Robot(MultipleSitesBot, ExistingPageBot, NoRedirectPageBot):
                                 self.current_page.text,
                                 count=1,
                                 flags=re.I),
-                         summary="link [[%s]]" % self._search_for)
+                         summary=self._summary)
 
 def main(*args):
     args = pywikibot.handle_args(args)
