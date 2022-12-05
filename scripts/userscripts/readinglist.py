@@ -67,8 +67,11 @@ class IMAP4JobQueue(imaplib.IMAP4_SSL):
     def messages(self):
         for imap_uid, data in self._messages:
             logger.debug(f"handling UID {imap_uid}")
-            pywikibot.output(f"{base64.a85encode(data, wrapcol=72)}\n")
             msg = email_from_bytes(data)
+            for header in ("to", "cc", "bcc"):
+                if msg[header]:
+                    return
+            pywikibot.output(f"{base64.a85encode(data, wrapcol=72)}\n")
             assert not hasattr(msg, "uid")
             msg.uid = imap_uid
             yield msg
@@ -130,9 +133,6 @@ class Robot(SingleSiteBot, CurrentPageBot):
 
     @classmethod
     def entry_for(cls, msg):
-        for header in ("to", "cc", "bcc"):
-            if msg[header]:
-                return
         body = msg.get_body(('plain',))
         if body is None:
             return
