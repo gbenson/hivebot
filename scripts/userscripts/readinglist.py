@@ -41,7 +41,7 @@ class IMAP4JobQueue(imaplib.IMAP4_SSL):
         return dat
 
     @property
-    def messages(self):
+    def _messages(self):
         logger.debug(f"selecting {self.mailbox}")
         data = self._chk(self.select(self.mailbox))
         if data and data[0] == b"0":
@@ -61,6 +61,11 @@ class IMAP4JobQueue(imaplib.IMAP4_SSL):
             assert header[-2] == b"RFC822"
             assert header[-1] == b"{%d}" % len(data)
             imap_uid = header[2]
+            yield imap_uid, data
+
+    @property
+    def messages(self):
+        for imap_uid, data in self._messages:
             logger.debug(f"handling UID {imap_uid}")
             pywikibot.output(f"{base64.a85encode(data, wrapcol=72)}\n")
             msg = email_from_bytes(data)
