@@ -60,11 +60,12 @@ class IMAP4JobQueue(imaplib.IMAP4_SSL):
             assert header[1] == b"(UID"
             assert header[-2] == b"RFC822"
             assert header[-1] == b"{%d}" % len(data)
-            logger.debug(f"handling UID {header[2]}")
+            imap_uid = header[2]
+            logger.debug(f"handling UID {imap_uid}")
             pywikibot.output(f"{base64.a85encode(data, wrapcol=72)}\n")
             msg = email_from_bytes(data)
             assert not hasattr(msg, "uid")
-            msg.uid = header[2]
+            msg.uid = imap_uid
             yield msg
 
 def email_from_bytes(data):
