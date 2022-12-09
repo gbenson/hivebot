@@ -10,7 +10,7 @@ import imaplib
 import logging
 
 from pywikibot import Family
-from scripts.userscripts.readinglist import email_from_bytes
+from scripts.userscripts.readinglist import email_from_bytes, Robot
 
 logger = logging.getLogger(__name__)
 
@@ -81,11 +81,14 @@ class TestFetcher(imaplib.IMAP4_SSL):
                 except ValueError as e:
                     if str(e) != "Ascii85 overflow":
                         raise
+                    # A non-Ascii85 bit in the email...
                     logger.debug(f"failed to decode {repr(encoded)}")
                     continue
+                decoded_msg = email_from_bytes(decoded)
+                wikitext = Robot.entry_for(decoded_msg)
                 yield {"date": msg["date"],
                        "encoded": encoded,
-                       "content": decoded}
+                       "content": wikitext}
 
 def main(*args):
     messages = []
@@ -93,9 +96,11 @@ def main(*args):
         messages.append((len(msg["encoded"]), msg))
     for msg in sorted(messages):
         _, msg = msg
+        sep = "}}"
+        date, content = msg["content"].split(sep, 1)
         print(f"\x1B[32mProcessed: {msg['date']}\x1B[0m")
         print(f"\x1B[33m{msg['encoded']}\x1B[0m")
-        print(repr(msg["content"]))
+        print(f"\x1B[36m{date}{sep}\x1B[0m{content}")
 
 if __name__ == "__main__":
     #logging.basicConfig(level=logging.DEBUG)
