@@ -62,6 +62,23 @@ E,oZ1FCAWpAISuK/PA*@@;0O08RuCMFD5iB3ZoS^4Yo)FD`od$EH=9>;FO&H==.WC<(0ng-?
          "[[wikipedia:Gunther]] ''<q>Gunnar</q>''"
 
          ),
+
+        ("URL+subject Instagram link",
+         r'''
+6t(1K3Zpn4Be1A\3?U_$@j!N\1,9t,0KLmA3]/T6.kiY20F\@YEc5eU+@fj\Gp#FbDKB`6+?
+X:FEd9o_@V'FuDf.1FATU*F$<)(VC1Ums3Zq+-@r,^s@j#9"D/`onF<GC<Df%.@Dg*=<F<G1
+6Ch*t^<HD_l/O=#\DKIo^9.`.H9jqaP+D,P4+@0mUEc5Z&%15g@F)tc&AM$JA3ZpOS6UNUh2
+*sY^7QE:]/MoCP2_@?^5t!:n1GD-R0L7Ka2*jPoB4>FiF)PqKDImoR%15g$9gpX7ATDj+Df.
+TY0eP-h$:A`LFCf?3/Q@"7ANCrUAU&;ME,8rsDEA:7+Cf(nEcYf64`tjY/N=1H6Z6jaASuTA
+<,uDbF(T!(/OaPeDe*R"B0%/TF`2A5A1_b@Bl8$$@VfTb$<SlQ3Gi2=Cb84hASuU(FEoni+`
+';"1F@$'0ICd\4]#$F7S-]/Aj'*^=B$Vd4YS4&4\edJ71BS5$>=O'E-"&n06_Va4YfH?DKBo
+.B6%Et4YfH9Df%.JAS#[26YnYmG]?Ah6u@3&5A=bOBPD!?1IOr*8o7=L<bkEE=ZnQ/''',
+
+         '{{at|Fri, 09 Dec 2022 10:00:50 +0000}} '
+         '[https://www.instagram.com/reel/Cl6fxqKgDmy/?igshid=MDJmNzVkMjY= '
+         'Leclerc compact loom/how it fold]'
+
+         ),
     ))
     def test(self, name, encoded_msg, expect):
         msg = email_from_bytes(a85decode(encoded_msg))
