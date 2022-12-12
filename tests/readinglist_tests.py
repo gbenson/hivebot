@@ -75,7 +75,7 @@ TY0eP-h$:A`LFCf?3/Q@"7ANCrUAU&;ME,8rsDEA:7+Cf(nEcYf64`tjY/N=1H6Z6jaASuTA
 .B6%Et4YfH9Df%.JAS#[26YnYmG]?Ah6u@3&5A=bOBPD!?1IOr*8o7=L<bkEE=ZnQ/''',
 
          '{{at|Fri, 09 Dec 2022 10:00:50 +0000}} '
-         '[https://www.instagram.com/reel/Cl6fxqKgDmy/?igshid=MDJmNzVkMjY= '
+         '[https://www.instagram.com/reel/Cl6fxqKgDmy/ '
          'Leclerc compact loom/how it fold]'
 
          ),
