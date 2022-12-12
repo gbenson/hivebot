@@ -124,7 +124,8 @@ class Robot(SingleSiteBot, CurrentPageBot):
             lines.append(line)
         # Store the updated wikitext.
         self.put_current("\n".join(lines) + "\n",
-                         show_diff=(not self.getOption("always")))
+                         show_diff=(not self.getOption("always")),
+                         asynchronous=False)
         self.mbox._chk(self.mbox.expunge())
 
     REWRITES = (
@@ -163,7 +164,58 @@ class Robot(SingleSiteBot, CurrentPageBot):
             entry = "{{at|%s}} %s" % (date, entry)
         return entry
 
-def main(*args):
+class LogScrobbler(logging.Filterer):
+    def __init__(self, logger):
+        super(LogScrobbler, self).__init__()
+        self.logger = logger
+
+    def __enter__(self):
+        self.records = []
+        self.logger.addFilter(self)
+
+    def filter(self, record):
+        """Return True if the record should be logged, False otherwise."""
+        self.records.append(record)
+        return False
+
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        self.logger.removeFilter(self)
+        # If it looks like we succeeded then lose network errors
+        if exc_type is None and self.success_message_seen:
+            self.purge_network_errors()
+        # Feed the remaining records back into the system
+        for record in self.records:
+            self.logger.handle(record)
+
+    SUCCESS_MESSAGES = (
+        "Page [[Reading list]] saved",
+        "No changes were needed on [[Reading list]]",
+    )
+
+    @property
+    def success_message_seen(self):
+        for record in reversed(self.records):
+            if record.msg in self.SUCCESS_MESSAGES:
+                return True
+        return False
+
+    def purge_network_errors(self):
+        self.records = [record
+                        for record in self.records
+                        if not self.is_network_error(record)]
+
+    @classmethod
+    def is_network_error(cls, record):
+        if record.levelname != "ERROR":
+            return False
+        if record.msg.startswith("An error occurred for uri "):
+            return True
+        if not record.exc_info:
+            return False
+        pywikibot.output(f"{record.exc_info!r}")
+        return False # XXX
+
+def _main(*args):
     args = pywikibot.handle_args(args)
     assert not args
     try:
@@ -186,6 +238,10 @@ def main(*args):
                 break
         else:
             raise
+
+def main(*args):
+    with LogScrobbler(logging.getLogger("pywiki")):
+        return _main(*args)
 
 if __name__ == "__main__":
     if "sys" not in locals():
