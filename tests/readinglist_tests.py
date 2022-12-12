@@ -31,6 +31,23 @@ I3$Je=6Z6jaASuTA<,uDbF(T!(/OaPeDe*R"B0%.o@VKon$;F)d74hPOEcYr5DE8mp/hd_A%
 
          ),
 
+        ("URL+subject generic link",
+         r'''
+6t(1K3Zpn4Be1A\3?U_$@j!N\1,9t-1-.6N3\W92.kiY20F\@YEc5eU+@fj\Gp#FbDKB`6+?
+X:FEd9o_@V'FuDf.1FATU*F$<)(VC1Ums3ZqL;Gp$X9+EMI<AKYf-Df'P<AoDKr5>uJCFD,6
+2+Ceht+E1b1F!,R<Ec6)5BHU_+A8cC,G@>bL%16*VATB@gB4Yt&3Zq'I3?V%)Bl"o(DfQsdD
+Idd+Bk.Y[9kABe@:s.'8OPT^4>95l0f_Nd67k)^0eb193A<`N3C>P\/OMu^6o@7f1GL^?76k
+KpASuR-DD#g<F?U-@9hA&J/QQG'F(oQ13Zp.00F\@VDf0Z.DKII0H#R=U+EV1>F>%TL@;0U@
+%144fBOPq&ATU(XFCm*a%15I@DKKH-F=gI4@;^-uATB@kDI[TqBl7QE+E;OBFCeu7E,oZ1FC
+AWpAISuK/PA*@@;0O08RuCMFD5iB3ZoS^4Yf#ED`od$EH=9>;FO&H==.WC<(0ng-?)+%-?21
+D:JO=f$4R>UFEDJC3\N-pBQ@[%F)5c5D0%iq7:U7Q04nX4F"[''',
+
+         '{{at|Fri, 09 Dec 2022 22:47:01 +0000}} '
+         '[https://ahrenslooms.com/faqs/ Why do some looms fold?So they '
+         'can pass through a doorway.]'
+
+         ),
+
         ("URL-only Wikipedia link",
          r'''
 6t(1K3Zq.8DCcnc3$:t7Fs&Oo1,9t,2```K3\`?3.kiY20F\@YEc5eU+@fj\Gp#FbDKB`6+?
