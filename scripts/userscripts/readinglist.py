@@ -164,8 +164,12 @@ class Robot(SingleSiteBot, CurrentPageBot):
         return entry
 
 def main(*args):
+    root_logger = logging.getLogger()
     logging.basicConfig(
         format="%(asctime)-15s %(name)-6s %(levelname)-8s %(message)s")
+    for handler in root_logger.handlers:
+        handler.setLevel(logging.INFO)
+        break
     args = pywikibot.handle_args(args)
     assert not args
     try:
