@@ -10,6 +10,7 @@ if False:
     logging.basicConfig(level=1)
 
 import base64
+import copy
 import email
 import email.policy
 import imaplib
@@ -163,48 +164,46 @@ class Robot(SingleSiteBot, CurrentPageBot):
             entry = "{{at|%s}} %s" % (date, entry)
         return entry
 
-def main(*args):
-    #root_logger = logging.getLogger()
-    #logging.basicConfig(
-    #    format="%(asctime)-15s %(name)-6s %(levelname)-8s %(message)s")
-    #for handler in root_logger.handlers:
-    #    handler.setLevel(logging.INFO)
-    #    break
-    #
-    # => the (very) root logger is getting the messages, but they've
-    # already been emitted by the "pywiki" logger _I_think_
-    root_logger = logging.getLogger("pywiki")
-    #print(root_logger.handlers) =>
-    # [<TerminalHandler (INFO)>,
-    #  <TerminalHandler (STDOUT)>,
-    #  <TerminalHandler (WARNING)>]
-    # - Created in UI.init_handlers
-    #   (in pywikibot/userinterfaces/terminal_interface_base.py)
-    # - TerminalHandler is subclass of logging.Handler
-    # - TerminalHandler.emit(self, record) calls self.UI.output
-    # - UI.output calls UI._print
-    #
-    #for handler in root_logger.handlers:
-    #    print(f"{handler}:")
-    #    print(f"  .name = {handler.name}")
-    #    print(f"  .level = {handler.level}")
-    #    print(f"  .formatter = {handler.formatter}")
-    #    print(f"  .filters = {handler.filters}")
-    #    print()
-    #
-    # N.B. Logger.emit(self, record) (i.e. TerminalHandler.emit)
-    # is called under lock;
-    # - Logger.handle(self, record) is the thing that sets that
-    #   lock
-    # - i.e. Logger.handler does if filter(record):lock,emit,unlock
-    #
-    # regarding filtering:
-    # - <TerminalHandler(INFO,STDOUT)> have
-    #   <pywikibot.userinterfaces.terminal_interface_base.MaxLevelFilter
-    # - <TerminalHandler (WARNING)> has none
+class LogScrobbler(logging.Filterer):
+    def __init__(self, logger):
+        super(LogScrobbler, self).__init__()
+        self.logger = logger
+        self._scrobbling = False
 
+    def __enter__(self):
+        self.records = []
+        pywikibot.output("scrobbling...")
+        self.handlers = copy.copy(self.logger.handlers)
+        for handler in self.handlers:
+            handler.addFilter(self)
+        self._scrobbling = True
+
+    def filter(self, record):
+        """Return True if the record should be logged, False otherwise."""
+        if not self._scrobbling:
+            return True
+        self.records.append(record)
+        return False
+
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        self._scrobbling = False
+        for handler in self.handlers:
+            handler.removeFilter(self)
+        sys.stdout.flush()
+        sys.stderr.flush()
+        #if exc_type is not None:
+        #    pywikibot.error("scrobbled an exception",
+        #                    exc_info=(exc_type, exc_value, exc_traceback))
+        #root_logger = logging.getLogger()
+        print("descrobbling...")
+        for record in self.records:
+            #self.logger.handle(record)
+            print(record.getMessage())
+        print("...descrobbled")
+
+def _main(*args):
     args = pywikibot.handle_args(args)
-    assert not args
+    assert not args or args == ["readinglist"]
     try:
         bot = Robot()
         bot.site.login()
@@ -225,6 +224,10 @@ def main(*args):
                 break
         else:
             raise
+
+def main(*args):
+    with LogScrobbler(logging.getLogger("pywiki")):
+        return _main(*args)
 
 if __name__ == "__main__":
     if "sys" not in locals():
