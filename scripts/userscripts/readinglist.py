@@ -164,12 +164,45 @@ class Robot(SingleSiteBot, CurrentPageBot):
         return entry
 
 def main(*args):
-    root_logger = logging.getLogger()
-    logging.basicConfig(
-        format="%(asctime)-15s %(name)-6s %(levelname)-8s %(message)s")
-    for handler in root_logger.handlers:
-        handler.setLevel(logging.INFO)
-        break
+    #root_logger = logging.getLogger()
+    #logging.basicConfig(
+    #    format="%(asctime)-15s %(name)-6s %(levelname)-8s %(message)s")
+    #for handler in root_logger.handlers:
+    #    handler.setLevel(logging.INFO)
+    #    break
+    #
+    # => the (very) root logger is getting the messages, but they've
+    # already been emitted by the "pywiki" logger _I_think_
+    root_logger = logging.getLogger("pywiki")
+    #print(root_logger.handlers) =>
+    # [<TerminalHandler (INFO)>,
+    #  <TerminalHandler (STDOUT)>,
+    #  <TerminalHandler (WARNING)>]
+    # - Created in UI.init_handlers
+    #   (in pywikibot/userinterfaces/terminal_interface_base.py)
+    # - TerminalHandler is subclass of logging.Handler
+    # - TerminalHandler.emit(self, record) calls self.UI.output
+    # - UI.output calls UI._print
+    #
+    #for handler in root_logger.handlers:
+    #    print(f"{handler}:")
+    #    print(f"  .name = {handler.name}")
+    #    print(f"  .level = {handler.level}")
+    #    print(f"  .formatter = {handler.formatter}")
+    #    print(f"  .filters = {handler.filters}")
+    #    print()
+    #
+    # N.B. Logger.emit(self, record) (i.e. TerminalHandler.emit)
+    # is called under lock;
+    # - Logger.handle(self, record) is the thing that sets that
+    #   lock
+    # - i.e. Logger.handler does if filter(record):lock,emit,unlock
+    #
+    # regarding filtering:
+    # - <TerminalHandler(INFO,STDOUT)> have
+    #   <pywikibot.userinterfaces.terminal_interface_base.MaxLevelFilter
+    # - <TerminalHandler (WARNING)> has none
+
     args = pywikibot.handle_args(args)
     assert not args
     try:
