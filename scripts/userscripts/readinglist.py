@@ -124,7 +124,8 @@ class Robot(SingleSiteBot, CurrentPageBot):
             lines.append(line)
         # Store the updated wikitext.
         self.put_current("\n".join(lines) + "\n",
-                         show_diff=(not self.getOption("always")))
+                         show_diff=(not self.getOption("always")),
+                         asynchronous=False)
         self.mbox._chk(self.mbox.expunge())
 
     REWRITES = (
