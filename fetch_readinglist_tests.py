@@ -100,9 +100,9 @@ class TestFetcher(imaplib.IMAP4_SSL):
 def main(*args):
     messages = []
     for msg in TestFetcher(*args).shared_links:
-        messages.append((len(msg["encoded"]), msg))
+        messages.append((len(msg["encoded"]), msg["date"], msg))
     for msg in sorted(messages):
-        _, msg = msg
+        _, _, msg = msg
         sep = "}}"
         date, content = msg["content"].split(sep, 1)
         print(f"\x1B[32mProcessed: {msg['date']}\x1B[0m")
