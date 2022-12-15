@@ -155,7 +155,9 @@ class Robot(SingleSiteBot, CurrentPageBot):
             if subject:
                 entry = "%s ''<q>%s</q>''" % (entry, subject)
         elif subject:
-            entry = "[%s %s]" % (entry, subject)
+            entry = "%s %s" % (entry, subject)
+            if "[" not in entry and "]" not in entry:
+                entry = "[%s]" % entry
         date = msg["date"]
         if date is not None:
             entry = "{{at|%s}} %s" % (date, entry)
