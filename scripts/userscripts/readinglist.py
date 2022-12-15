@@ -10,7 +10,6 @@ if False:
     logging.basicConfig(level=1)
 
 import base64
-import copy
 import email
 import email.policy
 import imaplib
@@ -168,38 +167,27 @@ class LogScrobbler(logging.Filterer):
     def __init__(self, logger):
         super(LogScrobbler, self).__init__()
         self.logger = logger
-        self._scrobbling = False
 
     def __enter__(self):
         self.records = []
-        pywikibot.output("scrobbling...")
-        self.handlers = copy.copy(self.logger.handlers)
-        for handler in self.handlers:
-            handler.addFilter(self)
-        self._scrobbling = True
+        pywikibot.output("<scrobbling>")
+        self.logger.addFilter(self)
 
     def filter(self, record):
         """Return True if the record should be logged, False otherwise."""
-        if not self._scrobbling:
-            return True
         self.records.append(record)
         return False
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
-        self._scrobbling = False
-        for handler in self.handlers:
-            handler.removeFilter(self)
-        sys.stdout.flush()
-        sys.stderr.flush()
-        #if exc_type is not None:
-        #    pywikibot.error("scrobbled an exception",
-        #                    exc_info=(exc_type, exc_value, exc_traceback))
-        #root_logger = logging.getLogger()
-        print("descrobbling...")
+        self.logger.removeFilter(self)
+        pywikibot.output("</scrobbling>")
+        if exc_type is not None:
+            pywikibot.error("scrobbled an exception",
+                            exc_info=(exc_type, exc_value, exc_traceback))
+        pywikibot.output(f'<descrobbling count="{len(self.records)}">')
         for record in self.records:
-            #self.logger.handle(record)
-            print(record.getMessage())
-        print("...descrobbled")
+            self.logger.handle(record)
+        pywikibot.output("</descrobbling>")
 
 def _main(*args):
     args = pywikibot.handle_args(args)
