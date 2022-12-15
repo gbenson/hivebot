@@ -8,6 +8,7 @@ from __future__ import unicode_literals
 import base64
 import imaplib
 import logging
+import re
 
 from pywikibot import Family
 from scripts.userscripts.readinglist import email_from_bytes, Robot
@@ -69,6 +70,12 @@ class TestFetcher(imaplib.IMAP4_SSL):
             msg.uid = header[2]
             yield msg
 
+    _ok_errors = (
+        "Ascii85 overflow",
+        "Non-Ascii85 digit found: .",
+    )
+    _ok_errors = re.compile(f"^({'|'.join(_ok_errors)})$")
+
     @property
     def shared_links(self):
         for msg in self.messages:
@@ -79,7 +86,7 @@ class TestFetcher(imaplib.IMAP4_SSL):
                 try:
                     decoded = base64.a85decode(encoded)
                 except ValueError as e:
-                    if str(e) != "Ascii85 overflow":
+                    if not self._ok_errors.search(str(e)):
                         raise
                     # A non-Ascii85 bit in the email...
                     logger.debug(f"failed to decode {repr(encoded)}")
