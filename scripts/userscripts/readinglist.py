@@ -171,7 +171,6 @@ class LogScrobbler(logging.Filterer):
 
     def __enter__(self):
         self.records = []
-        pywikibot.output("<scrobbling>")
         self.logger.addFilter(self)
 
     def filter(self, record):
@@ -181,14 +180,35 @@ class LogScrobbler(logging.Filterer):
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
         self.logger.removeFilter(self)
-        pywikibot.output("</scrobbling>")
-        if exc_type is not None:
-            pywikibot.error("scrobbled an exception",
-                            exc_info=(exc_type, exc_value, exc_traceback))
-        pywikibot.output(f'<descrobbling count="{len(self.records)}">')
+        # If it looks like we succeeded then lose network errors
+        if exc_type is None and self.page_saved:
+            self.purge_network_errors()
+        # Feed the remaining errors back into the system
         for record in self.records:
             self.logger.handle(record)
-        pywikibot.output("</descrobbling>")
+
+    @property
+    def page_saved(self):
+        for record in reversed(self.records):
+            if record.msg == "Page [[Reading list]] saved":
+                return True
+        return False
+
+    def purge_network_errors(self):
+        self.records = [record
+                        for record in self.records
+                        if not self.is_network_error(record)]
+
+    @classmethod
+    def is_network_error(cls, record):
+        if record.levelname != "ERROR":
+            return False
+        if record.msg.startswith("An error occurred for uri "):
+            return True
+        if not record.exc_info:
+            return False
+        pywikibot.output(f"{record.exc_info!r}")
+        return False # XXX
 
 def _main(*args):
     args = pywikibot.handle_args(args)
