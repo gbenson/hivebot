@@ -21,7 +21,7 @@ class TestFetcher(imaplib.IMAP4_SSL):
         self.mailbox = self._rewrite_mailbox_name(mailbox)
         logger.info(f"connecting to {server}")
         super().__init__(**server)
-        logger.info("authenticating");
+        logger.info("authenticating")
         self._chk(self.login(*login))
 
     @classmethod
@@ -53,7 +53,7 @@ class TestFetcher(imaplib.IMAP4_SSL):
         for data in self._chk(self.fetch("1:*", "(UID RFC822)")):
             # Each data is either a string, or a tuple.
             if not isinstance(data, tuple):
-                assert data == b")" # XXX why?
+                assert data == b")"  # XXX why?
                 continue
             # If a tuple, then the first part is the header
             # of the response, and the second part contains
