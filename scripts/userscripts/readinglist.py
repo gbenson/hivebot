@@ -183,7 +183,7 @@ class LogScrobbler(logging.Filterer):
         # If it looks like we succeeded then lose network errors
         if exc_type is None and self.page_saved:
             self.purge_network_errors()
-        # Feed the remaining errors back into the system
+        # Feed the remaining records back into the system
         for record in self.records:
             self.logger.handle(record)
 
@@ -212,7 +212,7 @@ class LogScrobbler(logging.Filterer):
 
 def _main(*args):
     args = pywikibot.handle_args(args)
-    assert not args or args == ["readinglist"]
+    assert not args
     try:
         bot = Robot()
         bot.site.login()
