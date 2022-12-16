@@ -48,7 +48,41 @@ D:JO=f$4R>UFEDJC3\N-pBQ@[%F)5c5D0%iq7:U7Q04nX4F"[''',
 
          ),
 
-        ("URL+subject generic link, with markup",
+        ("URL+subject generic link, with {{move to}}",
+         r'''
+6t(1K3ZqC8FY"Xi2'>:u@j!N\1,9t,0KM!E3\iK6.kiY20F\@YEc5eU+@fj\Gp#FbDKB`6+?
+X:FEd9o_@V'FuDf.1FATU*F$<)(VC1Ums3ZpRM<E)F>3'U8)0eb:s?X[PgATD."@<c-B1,h?
+O2a&oT1,(FC4YerZ1,h?O2d\d4+?_qh<(8H!5>aX.1IPS56S^ej1H%-S1.*oT2*E]`3&Fu*2
+aTYd6>^g-2a^MPCgh@04Z>bl2afkn%16*VATB@gB4Yt&3Zq'I3?V%)Bl"o(DfQsdDIdd+Bk.
+Y[9kABe@:s.'8OPT^4>AWI1.<ob0eGaI2Dm'C7Q!Ob3AE9C/MT.N6o..b1c@?O3C%4dASuR-
+DD#g<F?U-@9hA&J/QQG'F(oQ13Zp.00F\@VDf0Z.DKII0H#R=U+EV1>F>%TL@;0U@%144fBO
+Pq&ATU(XFCm*a%15I@DKKH-F=gI4@;^-uATB@kDI[TqBl7QE+E;OBFCeu7E,oZ1FCAWpAISu
+K/PA*@@;0O08RuCMFD5iB3ZoS^4Z,)DD`od$EH=9>;FO&H==.WC<(0ng-?)+%-?21D:JO=f$
+4R>UFEDJC3\N.1GBZ2*7;c[YF(&lnEd;/'Ch%U(@<?F.4YfH9D`ojEF_`Wb0JG170J-^FFCf
+JEFCBDI''',
+
+         '{{at|Thu, 15 Dec 2022 10:31:23 +0000}} '
+         'https://www.netsalarycalculator.co.uk/100000-after-tax/ 100k '
+         "after tax '''2019''' = £66,535.84 {{mt|Salary}}"
+         ),
+
+        ("URL+subject generic link, with closing square bracket",
+         r'''
+6t(1K3Zpn4Be1A]2BYD!@j!N\1,9t+3BAiL3\r];.kiY20F\@YEc5eU+@fj\Gp#FbDKB`6+?
+X:FEd9o_@V'FuDf.1FATU*F$<)(VC1Ums3ZqBW1cRKN2-h>!@;BEs9k@jL@97/YBcqG-Ch7$
+rAKZ)'EaiHnC`m5+D/`p*Bjtmi+EqOABHU,B:`q_M0F\@hF(KAD6"abHF?1O;/NFqJ@;0O#A
+oD]46#L4RDeW_k$;G)QF(&]m/P/>k+?W"Y779!j68C,M68^PN1bhHZ/N>aV1bCF:2DHpB6np
+AR5t4+P@V'FuDf.1FATU*F$;F)d74hPOEcYr5DE8mp/hd_A6Z6jaASuTA<-`Fo3ZrNUG]YTX
+Cgh$q3t2N>@q]:kF(KGVF`_4I3"63^Df0Z.DKII0Ea`j,An?!77;cURA8,po3ZrEbDffQ$/T
+>`EDKK;rCh4%_==m0+D..-p/P0JaDKKT7Grd&kCcsU0->u%$-?4)i:f9_O8Q[<O4]FjP<$lQ
+I1bg=s4\edJ71BS5$>=O'E-"&n05tT5@WH0m@<?F.4YfHMBkqF"ARoL`4YfHEEb@%)1,LsN1
+,T''',
+         '{{at|Fri, 16 Dec 2022 09:02:37 +0000}} '
+         '[https://phabricator.wikimedia.org/T248925 T248925] '
+         'Make MediaWiki release tarball compatible with PHP 8.0'
+        ),
+
+        ("URL+subject generic link, with matched square brackets",
          r'''
 6t(1K3ZqCEALnrY1E](s@j!N\1,9t,1HI?N3]&c<.kiY20F\@YEc5eU+@fj\Gp#FbDKB`6+?
 X:FEd9o_@V'FuDf.1FATU*F$<)(VC1Ums3ZpRM<E)F>3'U8);f?Ma?Z0akATD-@2*tAY7VQ4
@@ -158,6 +192,31 @@ EEb@%LAR[;J0JP:93ANNI1,LpE2_SidFDs8o06_Va4Uh`]1.?.jCh7[0Bl7L!Df092DfRur7
          '{{at|Wed, 14 Dec 2022 03:30:29 +0000}} '
 
          ),
+
+         ("URL+subject MediaWikiWiki link",
+          r'''6t(1K3Zpn4Be1A]2BYD!@j!N\1,9t+3BAiK3\`W;.kiY20F\@YEc5eU+@fj\Gp#FbDKB`6+?
+X:FEd9o_@V'FuDf.1FATU*F$<)(VC1Ums3ZpRM<DtJ8;aX,J5>aX>ARoL`=(uGa?ZU@/E,Tc
+=?Y44s?Vj9i?T:2(75/(WDId*_@W-F$?ZU<tEcbl'?[$3K4WlmP<DtJ8;aX,J5>aXeBO<JW1
+.<uZ4YfG[4YfH5:NU8]EaNiuCh7$rARAne@;]RgATM3pBkq9e9k@jL@97/YBjWSX1.=Dj+?_
+qh;_::66V0j6;*Qio4YfHN?Ys4s?YEkkARB:gDJsQ&Ble?<ATM3eDId*u@<-7"DJ+#tDf/oY
+85NYQ?Xe.B4WlmP<DtJ8;aX,J5>aXe?Y<qfATD3qCjBB3DfTVV1.>PKAS#4J1,LsN1,WENDf
+T3%DfTDrBl7O$Ec#6,Bl@lP1.=Dj%16*VATB@gB4Yt&3Zq'I3?V%)Bl"o(DfQsdDIdd+Bk.Y
+[9kABe@:s.'8OPT^4>95l3CYq_2_@?M6UE@]2+9e_3&ETa/MT(O75-\Y77/je0gKA\ASuR-D
+D#g<F?U-@9hA&J/QQG'F(oQ13Zp.00F\@VDf0Z.DKII0H#R=U+EV1>F>%TL@;0U@%144fBOP
+q&ATU(XFCm*a%15I@DKKH-F=gI4@;^-uATB@kDI[TqBl7QE+E;OBFCeu7E,oZ1FCAWpAISuK
+/PA*@@;0O08RuCMFD5iB3ZoS^4Z,2GD`od$EH=9>;FO&H==.WC<(0ng-?)+%-?21D:JO=f$4
+R>UFEDJC3\N.'4YfHCARoL`GA1i,4YfHEEb@%LBkqE96Z6g\@<?3mBl%L*Gp?7!Ecu#7?ZU-
+tFE_/6AH''',
+
+          '{{at|Fri, 16 Dec 2022 09:01:19 +0000}} '
+          '[[mediawikiwiki:Compatibility#Server software]] '
+          "''<q>"
+          'MediaWiki support for PHP 8.0 and above started with 1.39.0.'
+          ' Other release branches like MediaWiki 1.35.x may have minor'
+          ' issues and warnings on PHP 8 but generally work. See T24892'
+          '5 for more information.'
+          "</q>''"
+        ),
 
         ("URL+subject Instagram link",
          r'''
