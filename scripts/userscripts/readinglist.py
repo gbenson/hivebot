@@ -181,16 +181,21 @@ class LogScrobbler(logging.Filterer):
     def __exit__(self, exc_type, exc_value, exc_traceback):
         self.logger.removeFilter(self)
         # If it looks like we succeeded then lose network errors
-        if exc_type is None and self.page_saved:
+        if exc_type is None and self.success_message_seen:
             self.purge_network_errors()
         # Feed the remaining records back into the system
         for record in self.records:
             self.logger.handle(record)
 
+    SUCCESS_MESSAGES = (
+        "Page [[Reading list]] saved",
+        "No changes were needed on [[Reading list]]",
+    )
+
     @property
-    def page_saved(self):
+    def success_message_seen(self):
         for record in reversed(self.records):
-            if record.msg == "Page [[Reading list]] saved":
+            if record.msg in self.SUCCESS_MESSAGES:
                 return True
         return False
 
