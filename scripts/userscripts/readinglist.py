@@ -139,7 +139,13 @@ class Robot(SingleSiteBot, CurrentPageBot):
         body = msg.get_body(('plain',))
         if body is None:
             return
-        entry = body.get_content().strip()
+        body = body.get_content().strip()
+        if not body:
+            return
+        body = body.split(maxsplit=1)
+        if len(body) == 1:
+            body.append(None)
+        entry, body = body
         if not entry:
             return
         subject = msg["subject"]
@@ -162,6 +168,8 @@ class Robot(SingleSiteBot, CurrentPageBot):
         date = msg["date"]
         if date is not None:
             entry = "{{at|%s}} %s" % (date, entry)
+        if body is not None:
+            entry = "%s %s" % (entry, body)
         return entry
 
 class LogScrobbler(logging.Filterer):

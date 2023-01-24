@@ -81,6 +81,27 @@ F\@VDf0Z.DKII0H#R=U+EV1>F>%TL@;0U@%144fBOPq&ATU(XFCm*a%15I@DKKH-F=gI4@;^
 
          ),
 
+        ("URL+subject+body generic link",  # XXX
+         r'''
+6t(1K3Zq.8DCcnc1E]:uDBL\g1,C%,3BAlK3\i]<.kiY20F\@YEc5eU+@fj\Gp#FbDKB`6+?
+X:FEd9o_@V'FuDf.1FATU*F$<)(VC1Ums3Zq+7@r!3/BOr<-@rc:&F<G:>F(K0"%16*VATB@
+gB4Yt&3Zq'I3?V%)Bl"o(DfQsdDIdd+Bk.Y[9kABe@:s.'8OPT^4@:hk76r^h3%[NX5t*@^6
+prj`5rLYV/N>ID2+BGW1H.$I7R1TqASuR-DD#g<F?U-@9hA&J/QQG'F(oQ13Zp.00F\@VDf0
+Z.DKII0H#R=U+EV1>F>%TL@;0U@%144fBOPq&ATU(XFCm*a%15I@DKKH-F=gI4@;^-uATB@k
+DI[TqBl7QE+E;OBFCeu7E,oZ1FCAWpAISuK/PA*@@;0O08RuCMFD5iB3ZoS^4Y\cP->u%$-?
+4)i:f9_O8Q[<O4]FjP<$lQI0f1a7EBR&m:.5U!%16cjFDu:^0/%HcBm;cr7<<QZ@r#Y#@q]:
+gB4X4]7:U7Q04?Lj2`WZJ3=Q<)$>=O'E-"&n06M/HGWdfNF*(i#CLqa#BOPdkAN_e;@rH3;E
+HPi6FD5Z2F"]@02)$m@BQ&)HFDiaJ@;BF+F*2M7/T5NCGqEqt%16ua/ST*DFCB&sAM%h4/R^
+5?@<6*6F(96)E-*[PF`)7R''',
+
+         '{{at|Mon, 23 Jan 2023 09:10:29 +0000}} '
+         '[https://unix.stackexchange.com/a/479309 '
+         'Lock the script itself] '
+         'https://unix.stackexchange.com/questions/48505/how-to-make-su'
+         're-only-one-instance-of-a-bash-script-runs/'
+
+         ),
+
         ("URL-only Wikipedia link",
          r'''
 6t(1K3Zq.8DCcnc3$:t7Fs&Oo1,9t,2```K3\`?3.kiY20F\@YEc5eU+@fj\Gp#FbDKB`6+?
