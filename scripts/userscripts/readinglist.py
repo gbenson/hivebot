@@ -148,6 +148,8 @@ class Robot(SingleSiteBot, CurrentPageBot):
         entry, body = body
         if not entry:
             return
+        if entry.startswith("<") and entry.endswith(">"):
+            entry = entry[1:-1]
         subject = msg["subject"]
         if subject is not None:
             subject = subject.strip()
