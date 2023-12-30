@@ -17,6 +17,7 @@ import logging
 import pywikibot
 import re
 import urllib
+import urllib3
 
 from pywikibot.bot import CurrentPageBot, SingleSiteBot
 
@@ -222,6 +223,8 @@ class LogScrobbler(logging.Filterer):
             return True
         if not record.exc_info:
             return False
+        if isinstance(record.exc_info[1], urllib3.exceptions.HTTPError):
+            return True
         pywikibot.output(f"{record.exc_info!r}")
         return False # XXX
 
