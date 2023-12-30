@@ -70,7 +70,7 @@ class IMAP4JobQueue(imaplib.IMAP4_SSL):
             msg = email_from_bytes(data)
             for header in ("to", "cc", "bcc"):
                 if msg[header]:
-                    return
+                    continue
             encoded_bytes = base64.a85encode(data, wrapcol=72)
             pywikibot.output(f"{encoded_bytes.decode('ascii')}\n")
             assert not hasattr(msg, "uid")
